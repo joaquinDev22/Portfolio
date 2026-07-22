@@ -18,7 +18,7 @@ export const projectsData: Project[] = [
     description: "Tienda virtual interactiva de guitarras e instrumentos musicales con carrito de compras completo, actualización dinámica de cantidades y persistencia en LocalStorage.",
     tags: ["React 19", "TypeScript", "useReducer", "Tailwind CSS", "LocalStorage"],
     githubFrontUrl: "https://github.com/joaquinDev22/GuitarLa-Tienda-Virtual-UseReducer",
-    liveUrl: "https://github.com/joaquinDev22/GuitarLa-Tienda-Virtual-UseReducer",
+    liveUrl: "https://guitarla-by-joacodev.netlify.app/",
     imageColor: "from-amber-600/40 via-orange-600/40 to-slate-900"
   },
   {
