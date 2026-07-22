@@ -62,7 +62,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
               href={project.githubFrontUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 min-w-[120px] inline-flex items-center justify-center gap-2 px-3 py-2 text-xs sm:text-sm font-semibold rounded-xl bg-slate-900 border border-white/10 hover:border-white/20 text-gray-300 hover:text-white transition-all duration-200"
+              className="flex-1 min-w-30 inline-flex items-center justify-center gap-2 px-3 py-2 text-xs sm:text-sm font-semibold rounded-xl bg-slate-900 border border-white/10 hover:border-white/20 text-gray-300 hover:text-white transition-all duration-200"
             >
               <Icon name="github" className="w-4 h-4" />
               {project.githubBackUrl ? "Front-End" : "Código"}
@@ -74,7 +74,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
               href={project.githubBackUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 min-w-[120px] inline-flex items-center justify-center gap-2 px-3 py-2 text-xs sm:text-sm font-semibold rounded-xl bg-slate-900 border border-white/10 hover:border-white/20 text-gray-300 hover:text-white transition-all duration-200"
+              className="flex-1 min-w-30 inline-flex items-center justify-center gap-2 px-3 py-2 text-xs sm:text-sm font-semibold rounded-xl bg-slate-900 border border-white/10 hover:border-white/20 text-gray-300 hover:text-white transition-all duration-200"
             >
               <Icon name="github" className="w-4 h-4" />
               Back-End
@@ -86,7 +86,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 min-w-[100px] inline-flex items-center justify-center gap-2 px-3 py-2 text-xs sm:text-sm font-semibold rounded-xl bg-blue-600 hover:bg-blue-500 text-white transition-all duration-200"
+              className="flex-1 min-w-25 inline-flex items-center justify-center gap-2 px-3 py-2 text-xs sm:text-sm font-semibold rounded-xl bg-blue-600 hover:bg-blue-500 text-white transition-all duration-200"
             >
               <ExternalLink className="w-4 h-4" />
               Demo

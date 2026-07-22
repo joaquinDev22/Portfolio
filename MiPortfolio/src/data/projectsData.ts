@@ -19,7 +19,8 @@ export const projectsData: Project[] = [
     tags: ["React 19", "TypeScript", "useReducer", "Tailwind CSS", "LocalStorage"],
     githubFrontUrl: "https://github.com/joaquinDev22/GuitarLa-Tienda-Virtual-UseReducer",
     liveUrl: "https://guitarla-by-joacodev.netlify.app/",
-    imageColor: "from-amber-600/40 via-orange-600/40 to-slate-900"
+    imageColor: "from-amber-600/40 via-orange-600/40 to-slate-900",
+    image:"/guitarLa.png"
   },
   {
     title: "Control de Gastos & Presupuestos",
