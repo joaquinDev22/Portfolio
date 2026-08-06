@@ -26,9 +26,11 @@ export interface AboutStat {
   desc: string;
 }
 
+export type SkillLevel = "basic" | "intermediate" | "advanced";
+
 export interface SkillItem {
   name: string;
-  level: string;
+  level: SkillLevel;
   color: string;
 }
 

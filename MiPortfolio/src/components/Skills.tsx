@@ -1,6 +1,6 @@
 import { Cpu, Layers, Wrench } from "lucide-react";
 import { SKILL_CATEGORIES } from "../data/portfolioData";
-import type { SkillCategory } from "../types";
+import type { SkillCategory, SkillItem } from "../types";
 
 interface CategoryIconProps {
   name: SkillCategory["iconName"];
@@ -16,6 +16,18 @@ function CategoryIcon({ name }: CategoryIconProps) {
       return <Wrench className="w-5 h-5 text-purple-400" />;
     default:
       return null;
+  }
+}
+
+function formatSkillLevel(level: SkillItem["level"]) {
+  switch (level) {
+    case "advanced":
+      return "Avanzado";
+    case "intermediate":
+      return "Intermedio";
+    case "basic":
+    default:
+      return "Básico";
   }
 }
 
@@ -52,20 +64,19 @@ export default function Skills() {
                 <h3 className="text-white font-bold text-lg">{category.title}</h3>
               </div>
 
-              <div className="space-y-5">
+              <div className="space-y-3">
                 {category.skills.map((skill) => (
-                  <div key={skill.name} className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-300 font-medium">{skill.name}</span>
-                      <span className="text-gray-400 font-mono">{skill.level}</span>
+                  <div
+                    key={skill.name}
+                    className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2.5"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <span className={`h-2.5 w-2.5 rounded-full ${skill.color}`} />
+                      <span className="text-gray-200 font-medium">{skill.name}</span>
                     </div>
-
-                    <div className="w-full h-2 bg-slate-900 rounded-full overflow-hidden border border-white/5">
-                      <div
-                        className={`h-full ${skill.color} rounded-full transition-all duration-1000 ease-out`}
-                        style={{ width: `${skill.level}%` }}
-                      />
-                    </div>
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.25em] text-gray-400">
+                      {formatSkillLevel(skill.level)}
+                    </span>
                   </div>
                 ))}
               </div>
