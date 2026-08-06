@@ -13,6 +13,20 @@
     0%, 100% { opacity: 0; }
     50% { opacity: 1; }
   }
+
+  /* Modal animations */
+  --animate-modal-fade-in: modal-fade-in 0.2s ease-out both;
+  --animate-modal-slide-up: modal-slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  @keyframes modal-fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes modal-slide-up {
+    from { opacity: 0; transform: translateY(24px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0)  scale(1); }
+  }
 }
 
 /* Scroll suave para toda la página */

@@ -5,12 +5,14 @@ export interface Project {
   title: string;
   category: ProjectCategory;
   description: string;
+  longDescription?: string;
   tags: string[];
   githubFrontUrl: string;
   githubBackUrl?: string;
   liveUrl: string;
   imageColor: string;
   image?: string;
+  images?: string[];
 }
 
 export interface NavItem {
