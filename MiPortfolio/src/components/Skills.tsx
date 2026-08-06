@@ -58,7 +58,8 @@ export default function Skills() {
               key={category.title}
               className={`group relative overflow-hidden rounded-3xl border border-white/10 bg-slate-900/70 p-6 sm:p-8 shadow-[0_0_0_1px_rgba(255,255,255,0.03)_inset] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-blue-400/30 ${category.glow}`}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+              <div className="absolute inset-0 bg-linear-to-br from-white/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+              <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-blue-400/60 to-transparent opacity-70" />
 
               <div className="relative flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
                 <div className="rounded-2xl border border-white/10 bg-slate-950/80 p-2.5 shadow-lg shadow-black/20">
@@ -76,7 +77,7 @@ export default function Skills() {
                 {category.skills.map((skill) => (
                   <div
                     key={skill.name}
-                    className="flex items-center justify-between rounded-2xl border border-white/10 bg-slate-950/70 px-3.5 py-3 transition-all duration-200 hover:border-white/20 hover:bg-slate-800/70"
+                    className="flex items-center justify-between rounded-2xl border border-white/10 bg-slate-950/70 px-3.5 py-3 transition-all duration-200 hover:border-white/20 hover:bg-slate-800/70 hover:shadow-[0_0_15px_rgba(59,130,246,0.08)]"
                   >
                     <div className="flex items-center gap-2.5">
                       <span className={`h-2.5 w-2.5 rounded-full ${skill.color}`} />
