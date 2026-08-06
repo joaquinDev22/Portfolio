@@ -28,7 +28,7 @@ export const projectsData: Project[] = [
     description: "Aplicación de gestión financiera personal para el seguimiento de presupuestos, filtrado por categorías de gastos y balance dinámico en tiempo real utilizando Context API.",
     tags: ["React", "TypeScript", "Context API", "useReducer", "Tailwind CSS"],
     githubFrontUrl: "https://github.com/joaquinDev22/Control-de-gastos-presupuestos-e-ingresos-context-API",
-    liveUrl: "https://github.com/joaquinDev22/Control-de-gastos-presupuestos-e-ingresos-context-API",
+    liveUrl: "https://budget-tracker-by-joaquindev22.netlify.app/",
     imageColor: "from-emerald-600/40 via-teal-600/40 to-slate-900"
   },
   {
