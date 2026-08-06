@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { X, ExternalLink, ChevronLeft, ChevronRight, ImageOff } from "lucide-react";
 import Icon from "./Icon";
 import type { Project } from "../../types";
@@ -147,6 +148,13 @@ function Carousel({ images, title }: { images: string[]; title: string }) {
 }
 
 export default function ProjectModal({ project, onClose }: ProjectModalProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
+
   // Close on Escape
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
@@ -168,7 +176,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
     };
   }, [project]);
 
-  if (!project) return null;
+  if (!project || !mounted) return null;
 
   const carouselImages =
     project.images && project.images.length > 0
@@ -180,8 +188,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
   const hasLiveDemo =
     project.liveUrl && project.liveUrl !== project.githubFrontUrl;
 
-  return (
-    
+  return createPortal(
     <div
       id="project-modal-backdrop"
       role="dialog"
@@ -190,7 +197,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
       onClick={(e) => {
         if ((e.target as HTMLElement).id === "project-modal-backdrop") onClose();
       }}
-      className="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6 bg-slate-950/80 backdrop-blur-sm animate-modal-fade-in"
+      className="fixed inset-0 z-[70] flex items-center justify-center p-4 sm:p-6 bg-slate-950/80 backdrop-blur-sm animate-modal-fade-in"
     >
       
       <div className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl border border-white/10 bg-slate-900/95 shadow-2xl animate-modal-slide-up scrollbar-thin">
@@ -294,6 +301,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
