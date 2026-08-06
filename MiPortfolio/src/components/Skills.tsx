@@ -38,6 +38,7 @@ export default function Skills() {
       className="py-20 px-6 md:px-8 relative overflow-hidden bg-slate-950/40 border-y border-white/5"
     >
       <div className="absolute left-0 bottom-1/3 w-72 h-72 bg-emerald-600/5 rounded-full blur-[90px] pointer-events-none -z-10" />
+      <div className="absolute right-0 top-1/4 w-64 h-64 bg-blue-600/8 rounded-full blur-[110px] pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
@@ -55,26 +56,33 @@ export default function Skills() {
           {SKILL_CATEGORIES.map((category) => (
             <div
               key={category.title}
-              className={`glass-panel p-6 sm:p-8 rounded-2xl border border-white/10 transition-all duration-300 ${category.glow}`}
+              className={`group relative overflow-hidden rounded-3xl border border-white/10 bg-slate-900/70 p-6 sm:p-8 shadow-[0_0_0_1px_rgba(255,255,255,0.03)_inset] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-blue-400/30 ${category.glow}`}
             >
-              <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
-                <div className="p-2 bg-slate-900 rounded-xl border border-white/5">
+              <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+              <div className="relative flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
+                <div className="rounded-2xl border border-white/10 bg-slate-950/80 p-2.5 shadow-lg shadow-black/20">
                   <CategoryIcon name={category.iconName} />
                 </div>
-                <h3 className="text-white font-bold text-lg">{category.title}</h3>
+                <div>
+                  <h3 className="text-white font-semibold text-lg">{category.title}</h3>
+                  <p className="text-xs uppercase tracking-[0.25em] text-gray-500">
+                    Stack principal
+                  </p>
+                </div>
               </div>
 
-              <div className="space-y-3">
+              <div className="relative space-y-2.5">
                 {category.skills.map((skill) => (
                   <div
                     key={skill.name}
-                    className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2.5"
+                    className="flex items-center justify-between rounded-2xl border border-white/10 bg-slate-950/70 px-3.5 py-3 transition-all duration-200 hover:border-white/20 hover:bg-slate-800/70"
                   >
                     <div className="flex items-center gap-2.5">
                       <span className={`h-2.5 w-2.5 rounded-full ${skill.color}`} />
                       <span className="text-gray-200 font-medium">{skill.name}</span>
                     </div>
-                    <span className="text-[11px] font-semibold uppercase tracking-[0.25em] text-gray-400">
+                    <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.25em] text-gray-400">
                       {formatSkillLevel(skill.level)}
                     </span>
                   </div>
