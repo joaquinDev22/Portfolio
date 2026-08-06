@@ -5,7 +5,7 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "Sobre Mí", href: "#sobre-mi" },
   { label: "Habilidades", href: "#habilidades" },
   { label: "Proyectos", href: "#proyectos" },
-  { label: "Contacto", href: "#contacto" },
+  { label: "Contacto", href: "#contacto" }
 ];
 
 export const SKILL_CATEGORIES: SkillCategory[] = [
@@ -44,12 +44,6 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
 ];
 
 export const CONTACT_DETAILS: ContactDetail[] = [
-  {
-    iconName: "mail",
-    label: "Email",
-    value: "joacodev.mdp@gmail.com",
-    href: "mailto:joacodev.mdp@gmail.com",
-  },
   {
     iconName: "linkedin",
     label: "LinkedIn",

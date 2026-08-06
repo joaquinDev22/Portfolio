@@ -1,4 +1,4 @@
-import { Mail, Send, MapPin, MessageSquare, CheckCircle2, AlertCircle } from "lucide-react";
+import { Send, MapPin, MessageSquare, CheckCircle2, AlertCircle } from "lucide-react";
 import Icon from "./ui/Icon";
 import { useContactForm } from "../hooks/useContactForm";
 import { CONTACT_DETAILS } from "../data/portfolioData";
@@ -10,8 +10,6 @@ interface ContactIconProps {
 
 function ContactIcon({ name }: ContactIconProps) {
   switch (name) {
-    case "mail":
-      return <Mail className="w-5 h-5 text-blue-400" />;
     case "linkedin":
       return <Icon name="linkedin" className="w-5 h-5 text-blue-400" />;
     case "github":
