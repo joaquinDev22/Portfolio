@@ -197,7 +197,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
       onClick={(e) => {
         if ((e.target as HTMLElement).id === "project-modal-backdrop") onClose();
       }}
-      className="fixed inset-0 z-[70] flex items-center justify-center p-4 sm:p-6 bg-slate-950/80 backdrop-blur-sm animate-modal-fade-in"
+      className="fixed inset-0 z-70 flex items-center justify-center p-4 sm:p-6 bg-slate-950/80 backdrop-blur-sm animate-modal-fade-in"
     >
       
       <div className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl border border-white/10 bg-slate-900/95 shadow-2xl animate-modal-slide-up scrollbar-thin">
