@@ -29,7 +29,7 @@ export const projectsData: Project[] = [
     tags: ["React", "TypeScript", "Context API", "useReducer", "Tailwind CSS"],
     githubFrontUrl: "https://github.com/joaquinDev22/Control-de-gastos-presupuestos-e-ingresos-context-API",
     liveUrl: "https://budget-tracker-by-joaquindev22.netlify.app/",
-    imageColor: "from-emerald-600/40 via-teal-600/40 to-slate-900"
+    imageColor: "/budgetTracker.png"
   },
   {
     title: "Contador de Calorías & Fitness Tracker",
