@@ -57,7 +57,7 @@ export default function Skills() {
                   <div key={skill.name} className="space-y-2">
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-300 font-medium">{skill.name}</span>
-                      <span className="text-gray-400 font-mono">{skill.level}%</span>
+                      <span className="text-gray-400 font-mono">{skill.level}</span>
                     </div>
 
                     <div className="w-full h-2 bg-slate-900 rounded-full overflow-hidden border border-white/5">
