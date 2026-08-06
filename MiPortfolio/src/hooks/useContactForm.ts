@@ -22,6 +22,7 @@ export function useContactForm() {
   const [errors, setErrors] = useState<ContactFormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const validate = useCallback((): boolean => {
     const newErrors: ContactFormErrors = {};
@@ -60,21 +61,48 @@ export function useContactForm() {
   );
 
   const handleSubmit = useCallback(
-    (e: FormEvent) => {
+    async (e: FormEvent) => {
       e.preventDefault();
 
-      if (validate()) {
-        setIsSubmitting(true);
-        setTimeout(() => {
-          setIsSubmitting(false);
-          setSubmitSuccess(true);
-          setFormData({ name: "", email: "", message: "" });
+      if (!validate()) return;
 
-          setTimeout(() => setSubmitSuccess(false), 5000);
-        }, 1500);
+      setIsSubmitting(true);
+      setSubmitError(null);
+
+      const endpoint =
+        import.meta.env.VITE_CONTACT_ENDPOINT ??
+        "https://formsubmit.co/ajax/joacodev.mdp@gmail.com";
+
+      const formPayload = new FormData();
+      formPayload.append("name", formData.name.trim());
+      formPayload.append("email", formData.email.trim());
+      formPayload.append("message", formData.message.trim());
+      formPayload.append("_subject", `Nuevo mensaje desde tu portfolio`);
+      formPayload.append("_captcha", "false");
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          body: formPayload,
+        });
+
+        if (!response.ok) {
+          throw new Error("El servidor no pudo procesar el mensaje");
+        }
+
+        setSubmitSuccess(true);
+        setFormData({ name: "", email: "", message: "" });
+
+        window.setTimeout(() => setSubmitSuccess(false), 5000);
+      } catch {
+        setSubmitError(
+          "No se pudo enviar el mensaje. Intenta de nuevo en unos minutos o escríbeme directamente por WhatsApp."
+        );
+      } finally {
+        setIsSubmitting(false);
       }
     },
-    [validate]
+    [formData, validate]
   );
 
   return {
@@ -82,6 +110,7 @@ export function useContactForm() {
     errors,
     isSubmitting,
     submitSuccess,
+    submitError,
     handleChange,
     handleSubmit,
   };

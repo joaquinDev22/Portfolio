@@ -29,6 +29,7 @@ export default function Contact() {
     errors,
     isSubmitting,
     submitSuccess,
+    submitError,
     handleChange,
     handleSubmit,
   } = useContactForm();
@@ -163,6 +164,12 @@ export default function Contact() {
                     </span>
                   )}
                 </div>
+
+                {submitError && (
+                  <div className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+                    {submitError}
+                  </div>
+                )}
 
                 <button
                   type="submit"
