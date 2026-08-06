@@ -14,11 +14,11 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
     iconName: "layers",
     glow: "hover:shadow-[0_0_20px_rgba(59,130,246,0.15)]",
     skills: [
-      { name: "React", level: 90, color: "bg-blue-500" },
-      { name: "TypeScript", level: 85, color: "bg-indigo-500" },
-      { name: "JavaScript", level: 90, color: "bg-yellow-500" },
-      { name: "Tailwind CSS", level: 95, color: "bg-sky-400" },
-      { name: "HTML5 & CSS3", level: 95, color: "bg-orange-500" },
+      { name: "React", level:'intermediate', color: "bg-blue-500" },
+      { name: "TypeScript", level: 'intermediate', color: "bg-indigo-500" },
+      { name: "JavaScript", level: 'intermediate', color: "bg-yellow-500" },
+      { name: "Tailwind CSS", level: 'intermediate', color: "bg-sky-400" },
+      { name: "HTML5 & CSS3", level: 'intermediate', color: "bg-orange-500" },
     ],
   },
   {
@@ -26,10 +26,10 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
     iconName: "cpu",
     glow: "hover:shadow-[0_0_20px_rgba(16,185,129,0.15)]",
     skills: [
-      { name: "Node.js", level: 85, color: "bg-green-500" },
-      { name: "Java", level: 90, color: "bg-gray-400" },
-      { name: "SpringBoot", level: 80, color: "bg-blue-600" },
-      { name: "REST APIs", level: 90, color: "bg-teal-500" },
+      { name: "Node.js", level: 'basic', color: "bg-green-500" },
+      { name: "Java", level: 'intermediate', color: "bg-gray-400" },
+      { name: "SpringBoot", level: 'intermediate', color: "bg-blue-600" },
+      { name: "REST APIs", level: 'basic', color: "bg-teal-500" },
     ],
   },
   {
@@ -37,8 +37,8 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
     iconName: "wrench",
     glow: "hover:shadow-[0_0_20px_rgba(139,92,246,0.15)]",
     skills: [
-      { name: "MySQL", level: 75, color: "bg-cyan-600" },
-      { name: "Postman", level: 85, color: "bg-orange-400" },
+      { name: "MySQL", level: 'intermediate', color: "bg-cyan-600" },
+      { name: "Postman", level: 'intermediate', color: "bg-orange-400" },
     ],
   },
 ];

@@ -53,7 +53,7 @@ function Carousel({ images, title }: { images: string[]; title: string }) {
 
   return (
     <div className="relative w-full select-none">
-      {/* Main image */}
+      
       <div className="relative h-64 sm:h-80 overflow-hidden rounded-xl border border-white/10 bg-slate-950">
         <img
           key={current}
@@ -67,10 +67,10 @@ function Carousel({ images, title }: { images: string[]; title: string }) {
               "https://placehold.co/800x450/0f172a/3b82f6?text=Imagen+No+Disponible";
           }}
         />
-        {/* Gradient overlay bottom */}
+        
         <div className="absolute inset-0 bg-linear-to-t from-slate-950/50 via-transparent to-transparent pointer-events-none" />
 
-        {/* Nav arrows — only show if more than 1 image */}
+        
         {images.length > 1 && (
           <>
             <button
@@ -90,7 +90,7 @@ function Carousel({ images, title }: { images: string[]; title: string }) {
           </>
         )}
 
-        {/* Image counter badge */}
+        
         {images.length > 1 && (
           <span className="absolute bottom-3 right-4 text-xs font-mono text-gray-400 bg-slate-950/80 border border-white/10 px-2.5 py-1 rounded-full">
             {current + 1} / {images.length}
@@ -98,7 +98,7 @@ function Carousel({ images, title }: { images: string[]; title: string }) {
         )}
       </div>
 
-      {/* Dot indicators */}
+      
       {images.length > 1 && (
         <div className="flex items-center justify-center gap-2 mt-4">
           {images.map((_, i) => (
@@ -116,14 +116,14 @@ function Carousel({ images, title }: { images: string[]; title: string }) {
         </div>
       )}
 
-      {/* Thumbnail strip — show if 2+ images */}
+      
       {images.length > 1 && (
         <div className="flex gap-2 mt-3 overflow-x-auto pb-1 scrollbar-thin">
           {images.map((src, i) => (
             <button
               key={i}
               onClick={() => goTo(i)}
-              className={`flex-shrink-0 w-20 h-14 rounded-lg overflow-hidden border-2 transition-all duration-200 cursor-pointer ${
+              className={`shrink-0 w-20 h-14 rounded-lg overflow-hidden border-2 transition-all duration-200 cursor-pointer ${
                 i === current
                   ? "border-blue-500 opacity-100"
                   : "border-white/10 opacity-50 hover:opacity-80"
@@ -181,7 +181,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
     project.liveUrl && project.liveUrl !== project.githubFrontUrl;
 
   return (
-    /* Backdrop */
+    
     <div
       id="project-modal-backdrop"
       role="dialog"
@@ -190,16 +190,16 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
       onClick={(e) => {
         if ((e.target as HTMLElement).id === "project-modal-backdrop") onClose();
       }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-950/80 backdrop-blur-sm animate-modal-fade-in"
+      className="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6 bg-slate-950/80 backdrop-blur-sm animate-modal-fade-in"
     >
-      {/* Modal panel */}
+      
       <div className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl border border-white/10 bg-slate-900/95 shadow-2xl animate-modal-slide-up scrollbar-thin">
-        {/* Glow accent top */}
+        
         <div
           className={`absolute top-0 left-0 right-0 h-1 rounded-t-2xl bg-linear-to-r ${project.imageColor}`}
         />
 
-        {/* Close button */}
+        
         <button
           onClick={onClose}
           aria-label="Cerrar modal"
@@ -221,10 +221,10 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             </h2>
           </div>
 
-          {/* Carousel */}
+          
           <Carousel images={carouselImages} title={project.title} />
 
-          {/* Description */}
+          
           <div className="mt-6 space-y-3">
             <h3 className="text-sm font-mono uppercase tracking-widest text-blue-400">
               Sobre el proyecto
@@ -234,7 +234,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             </p>
           </div>
 
-          {/* Tags */}
+          
           <div className="mt-6">
             <h3 className="text-sm font-mono uppercase tracking-widest text-blue-400 mb-3">
               Tecnologías
@@ -251,10 +251,10 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             </div>
           </div>
 
-          {/* Divider */}
+         
           <div className="h-px w-full bg-white/5 my-6" />
 
-          {/* CTA Links */}
+          
           <div className="flex flex-wrap gap-3">
             {project.githubFrontUrl && (
               <a

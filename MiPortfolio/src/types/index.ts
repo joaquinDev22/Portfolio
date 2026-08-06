@@ -28,7 +28,7 @@ export interface AboutStat {
 
 export interface SkillItem {
   name: string;
-  level: number;
+  level: string;
   color: string;
 }
 
@@ -44,4 +44,4 @@ export interface ContactDetail {
   label: string;
   value: string;
   href: string;
-}
+}
