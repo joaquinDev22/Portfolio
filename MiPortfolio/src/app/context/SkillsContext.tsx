@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, type ReactNode } from "react";
 import { techCategories, techStack, softSkills } from "../data/skillsDb";
 import type { TechCategory, TechSkill, SoftSkill } from "../types/skillsType";
 
