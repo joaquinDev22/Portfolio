@@ -11,10 +11,10 @@ export default function App() {
   return (
     <MenuProvider>
       <SkillsProvider>
-        <div className="min-h-screen flex flex-col bg-slate-950 text-white">
+        <div className="min-h-screen flex flex-col bg-slate-950 text-white overflow-x-hidden">
           <Header />
           <MobileMenu />
-          <main className="flex-grow pt-28">
+          <main className="flex-grow pt-18 sm:pt-28">
             <AboutMe />
             <Habilities />
             <Projects />
