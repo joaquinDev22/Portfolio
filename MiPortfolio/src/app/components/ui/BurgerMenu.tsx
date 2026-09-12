@@ -1,14 +1,13 @@
+import { useMenu } from "../../context/MenuContext";
 
-type BurgerMenuProps = {
-    isOpen: boolean
-    onToggle: () => void
-}
 
-export default function BurgerMenu({isOpen,onToggle} : BurgerMenuProps) {
+export default function BurgerMenu() {
+    const { isOpen, toggleMenu } = useMenu();
+    
   return (
     <button
-        onClick={onToggle}
-        className="sm:hidden absolute right-4 sm:right-8 w-8 h-8 flex flex-col justify-center items-center cursor-pointer focus:outline-none"
+        onClick={toggleMenu}
+        className="sm:hidden absolute right-4 sm:right-8 w-8 h-8 flex flex-col justify-center items-center cursor-pointer focus:outline-none z-50"
     >
 
         <span

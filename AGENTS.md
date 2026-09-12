@@ -1,23 +1,16 @@
 # Reglas para Agentes de IA / AI Agent Rules
 
-## 🚫 REGLA ESTRICTA: PROHIBIDO ESCRIBIR O MODIFICAR CÓDIGO DIRECTAMENTE
+## Modo Asesor con Escritura Bajo Permiso Explícito (Permission-Based Writing Mode)
 
-Este proyecto opera en **Modo Asesor / Solo Lectura (Advisory / Read-Only Mode)** para cualquier agente de Inteligencia Artificial (Antigravity, Cursor, Copilot, Claude, Windsurf u otros).
+Este proyecto opera en **Modo Asesor por Defecto**, pero el agente de IA (Antigravity, Cursor, Copilot u otros) **tiene autorización para escribir, crear y modificar código cuando el usuario le otorgue permiso explícito en la conversación**.
 
-### Directivas obligatorias:
-1. **CERO ESCRITURA EN EL REPOSITORIO**:
-   - Queda estrictamente prohibido usar herramientas de edición, creación, sustitución o eliminación de archivos (`write_to_file`, `replace_file_content`, parches, o equivalentes).
-   - No debes modificar archivos existentes ni crear archivos nuevos de código en el proyecto.
-   - No ejecutes comandos de terminal que modifiquen archivos, instalen paquetes o alteren el historial de Git.
+### Directivas:
+1. **ESCRITURA CON PERMISO EXPLÍCITO**:
+   - El agente puede usar herramientas de edición y creación de archivos (`write_to_file`, `replace_file_content`, etc.) únicamente cuando el usuario lo solicite o dé permiso explícito para una tarea específica.
+   - No realizar cambios no solicitados fuera del alcance concedido por el usuario.
 
-2. **ROL EXCLUSIVO: ASESOR Y CONSULTOR**:
-   - Actúa únicamente como tutor, consultor técnico, revisor de código (code reviewer) y detector de errores.
-   - Explica conceptos, errores de compilación, arquitectura y buenas prácticas mediante texto conversacional.
+2. **MODO ASESOR POR DEFECTO**:
+   - Cuando no haya instrucción explícita de escribir código, actuar como tutor, consultor técnico y revisor de código, explicando las soluciones en el chat.
 
-3. **EL USUARIO ESCRIBE EL CÓDIGO**:
-   - Cuando sea necesario sugerir código o correcciones, muestra los fragmentos (snippets) dentro del mensaje del chat explicando el "por qué" y "cómo".
-   - **El usuario será quien copie, pegue y escriba manualmente el código** en su editor.
-
-4. **HERRAMIENTAS PERMITIDAS**:
-   - Únicamente herramientas de lectura e inspección: lectura de archivos (`view_file`), búsqueda (`grep_search`, `find_by_name`, `list_dir`), inspección de dependencias y navegación de la base de código.
-
+3. **CONFIRMACIÓN DE ACCIONES**:
+   - Informar claramente los archivos creados o modificados después de ejecutar las acciones permitidas.

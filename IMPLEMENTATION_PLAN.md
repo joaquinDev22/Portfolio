@@ -1,50 +1,35 @@
-# Plan de Implementación: Arquitectura de Navegación con Context y Custom Hook (`useMenu`)
+# Plan de Implementación: Arquitectura de Navegación Completa (Mobile Drawer + WebMenu)
 
-Este documento detalla el análisis de tu código actual y la guía paso a paso para desacoplar y estructurar la navegación de tu portfolio utilizando **React Context API** y el hook personalizado **`useMenu`**.
-
----
-
-## 1. Análisis del Estado Actual del Proyecto
-
-### Lo que ya tienes funcionando:
-1. **`MiPortfolio/src/app/components/ui/BurgerMenu.tsx`**:
-   - Ya tiene la animación con Tailwind CSS para transformarse en cruz (**X**).
-   - Ya tiene `sm:hidden` para ocultarse en pantallas de escritorio.
-   - Actualmente recibe `isOpen` y `onToggle` por **props**.
-2. **`MiPortfolio/src/app/components/staticComponents/Header.tsx`**:
-   - Maneja el estado localmente con `const [isOpen, setIsOpen] = useState(false)`.
-   - Pasa los props a `<BurgerMenu />`.
-   - Tiene los tres puntos decorativos a la izquierda y el título centrado.
-
-### Los puntos a resolver:
-- **Prerrequisito crítico**: Falta el archivo `src/main.tsx` (fue eliminado en el refactor) e `index.html` tiene `<App></App>`. Sin esto, Vite no puede levantar el proyecto ni compilar.
-- **Desacoplamiento**: Si creamos el menú desplegable con enlaces (`#proyectos`, `#contacto`), ese menú necesita saber cuándo está abierto y cada enlace debe poder cerrar el menú al hacer clic. Con **Context + Custom Hook**, evitamos pasar funciones por props entre múltiples componentes.
+Este documento detalla la arquitectura y los pasos para estructurar la navegación completa de tu portfolio:
+1. **Menú Móvil (*Mobile Drawer*)**: Se desliza suavemente de derecha a izquierda con fondo oscuro translúcido (*backdrop*), gestionado mediante **React Context API** y el hook **`useMenu`**.
+2. **Menú de Escritorio (*WebMenu*)**: Barra de navegación horizontal visible en pantallas medianas y grandes (`>= 640px`).
+3. **Navegación Limpia**: Desplazamiento suave con `scrollIntoView({ behavior: 'smooth' })` manteniendo la URL limpia en `localhost:5173/` (sin `#` en la barra de direcciones).
 
 ---
 
-## 2. Diagrama de la Arquitectura Propuesta
+## 1. Diagrama de la Arquitectura
 
 ```mermaid
 flowchart TD
     A["App.tsx (envuelto en MenuProvider)"] --> B["Header.tsx"]
-    A --> C["MobileMenu.tsx (Menú Desplegable)"]
+    A --> C["MobileMenu.tsx (Drawer Lateral)"]
     
     subgraph Estado Global (MenuContext)
         M["MenuContext (isOpen, toggleMenu, closeMenu)"]
     end
     
-    B --> D["BurgerMenu.tsx (consume useMenu)"]
-    C --> E["Enlaces de navegación (consumen useMenu -> closeMenu)"]
+    B --> D["WebMenu.tsx (visible en PC: hidden sm:flex)"]
+    B --> E["BurgerMenu.tsx (visible en móvil: sm:hidden)"]
     
-    D -.->|toggleMenu| M
-    E -.->|closeMenu| M
-    M -.->|isOpen| D
+    E -.->|toggleMenu| M
+    C -.->|closeMenu| M
+    M -.->|isOpen| E
     M -.->|isOpen| C
 ```
 
 ---
 
-## 3. Plan de Cambios Paso a Paso (Código Listo para Aplicar)
+## 2. Componentes y Código Paso a Paso
 
 ### Paso 0: Prerrequisito indispensable de compilación
 
@@ -71,7 +56,7 @@ flowchart TD
 
 ---
 
-### Paso 1: Crear el Contexto y el Hook (`src/app/context/MenuContext.tsx`)
+### Paso 1: Crear el Contexto del Menú (`src/app/context/MenuContext.tsx`)
 
 Crea la carpeta `src/app/context/` y el archivo `MenuContext.tsx`:
 
@@ -112,9 +97,9 @@ export function useMenu() {
 
 ---
 
-### Paso 2: Actualizar `src/app/components/ui/BurgerMenu.tsx`
+### Paso 2: Botón Hamburguesa Animado (`src/app/components/ui/BurgerMenu.tsx`)
 
-Eliminamos los props locales y consumimos `useMenu()` directamente:
+Botón con animación hacia cruz (**X**), visible únicamente en celulares (`sm:hidden`) y con `z-50` para quedar por encima del panel:
 
 ```tsx
 import { useMenu } from "../../context/MenuContext";
@@ -125,7 +110,7 @@ export default function BurgerMenu() {
   return (
     <button
       onClick={toggleMenu}
-      className="sm:hidden absolute right-4 sm:right-8 w-8 h-8 flex flex-col justify-center items-center cursor-pointer focus:outline-none"
+      className="sm:hidden w-8 h-8 flex flex-col justify-center items-center cursor-pointer focus:outline-none z-50"
       aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
     >
       <span
@@ -152,68 +137,189 @@ export default function BurgerMenu() {
 
 ---
 
-### Paso 3: Crear el Menú Desplegable (`src/app/components/navigation/MobileMenu.tsx`)
+### Paso 3: Menú Móvil Deslizable (*Drawer*) (`src/app/components/navigation/MobileMenu.tsx`)
 
-Crea la carpeta `src/app/components/navigation/` y el archivo `MobileMenu.tsx`:
+Panel lateral que desliza de derecha a izquierda (`translate-x-full` -> `translate-x-0`), con fondo oscuro (*backdrop*) y scroll suave sin ensuciar la URL:
 
 ```tsx
+import { useState } from "react";
 import { useMenu } from "../../context/MenuContext";
 
 export default function MobileMenu() {
   const { isOpen, closeMenu } = useMenu();
+  const [activeSection, setActiveSection] = useState("sobre-mi");
 
-  if (!isOpen) return null;
+  const handleNavClick = (id: string) => {
+    setActiveSection(id);
+    closeMenu();
+
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
-    <div className="sm:hidden fixed inset-x-0 top-14 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 py-6 px-8 z-40 transition-all">
-      <nav className="flex flex-col space-y-4 text-center">
-        <a
-          href="#sobre-mi"
-          onClick={closeMenu}
-          className="text-lg text-slate-300 hover:text-white transition-colors"
-        >
-          Sobre mí
-        </a>
-        <a
-          href="#habilidades"
-          onClick={closeMenu}
-          className="text-lg text-slate-300 hover:text-white transition-colors"
-        >
-          Habilidades
-        </a>
-        <a
-          href="#proyectos"
-          onClick={closeMenu}
-          className="text-lg text-slate-300 hover:text-white transition-colors"
-        >
-          Proyectos
-        </a>
-        <a
-          href="#contacto"
-          onClick={closeMenu}
-          className="text-lg text-blue-400 font-semibold hover:text-blue-300 transition-colors"
-        >
-          Contacto
-        </a>
-      </nav>
-    </div>
+    <>
+      {/* 1. Fondo oscuro semitransparente (Backdrop) */}
+      <div
+        onClick={closeMenu}
+        className={`sm:hidden fixed inset-0 bg-black/60 backdrop-blur-xs z-30 transition-opacity duration-300 ${
+          isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+        aria-hidden="true"
+      />
+
+      {/* 2. Panel lateral que desliza de derecha a izquierda */}
+      <div
+        className={`sm:hidden fixed top-0 right-0 h-full w-64 max-w-[80vw] bg-slate-900 border-l border-slate-800 p-6 z-40 flex flex-col shadow-2xl transition-transform duration-300 ease-in-out ${
+          isOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <nav className="flex flex-col space-y-6 mt-16 text-left">
+          <button
+            type="button"
+            onClick={() => handleNavClick("sobre-mi")}
+            className={`text-lg font-medium transition-colors text-left cursor-pointer ${
+              activeSection === "sobre-mi"
+                ? "text-blue-400 font-bold"
+                : "text-slate-300 hover:text-white"
+            }`}
+          >
+            Sobre mí
+          </button>
+
+          <button
+            type="button"
+            onClick={() => handleNavClick("habilidades")}
+            className={`text-lg font-medium transition-colors text-left cursor-pointer ${
+              activeSection === "habilidades"
+                ? "text-blue-400 font-bold"
+                : "text-slate-300 hover:text-white"
+            }`}
+          >
+            Habilidades
+          </button>
+
+          <button
+            type="button"
+            onClick={() => handleNavClick("proyectos")}
+            className={`text-lg font-medium transition-colors text-left cursor-pointer ${
+              activeSection === "proyectos"
+                ? "text-blue-400 font-bold"
+                : "text-slate-300 hover:text-white"
+            }`}
+          >
+            Proyectos
+          </button>
+
+          <button
+            type="button"
+            onClick={() => handleNavClick("contacto")}
+            className={`text-lg font-medium transition-colors text-left cursor-pointer ${
+              activeSection === "contacto"
+                ? "text-blue-400 font-bold"
+                : "text-slate-300 hover:text-white"
+            }`}
+          >
+            Contacto
+          </button>
+        </nav>
+      </div>
+    </>
   );
 }
 ```
 
 ---
 
-### Paso 4: Actualizar `src/app/components/staticComponents/Header.tsx`
+### Paso 4: Menú de Escritorio (`src/app/components/navigation/WebMenu.tsx`)
 
-Quitamos el `useState` local y añadimos la barra de navegación para computadoras (`hidden sm:flex`):
+Barra de navegación horizontal visible únicamente en pantallas de computadora (`hidden sm:flex`):
+
+```tsx
+import { useState } from "react";
+
+export default function WebMenu() {
+  const [activeSection, setActiveSection] = useState("sobre-mi");
+
+  const handleNavClick = (id: string) => {
+    setActiveSection(id);
+
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  return (
+    <nav className="hidden sm:flex items-center gap-6 text-sm font-medium">
+      <button
+        type="button"
+        onClick={() => handleNavClick("sobre-mi")}
+        className={`transition-colors cursor-pointer ${
+          activeSection === "sobre-mi"
+            ? "text-blue-400 font-bold"
+            : "text-slate-300 hover:text-white"
+        }`}
+      >
+        Sobre mí
+      </button>
+
+      <button
+        type="button"
+        onClick={() => handleNavClick("habilidades")}
+        className={`transition-colors cursor-pointer ${
+          activeSection === "habilidades"
+            ? "text-blue-400 font-bold"
+            : "text-slate-300 hover:text-white"
+        }`}
+      >
+        Habilidades
+      </button>
+
+      <button
+        type="button"
+        onClick={() => handleNavClick("proyectos")}
+        className={`transition-colors cursor-pointer ${
+          activeSection === "proyectos"
+            ? "text-blue-400 font-bold"
+            : "text-slate-300 hover:text-white"
+        }`}
+      >
+        Proyectos
+      </button>
+
+      <button
+        type="button"
+        onClick={() => handleNavClick("contacto")}
+        className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+          activeSection === "contacto"
+            ? "bg-blue-600 text-white font-bold"
+            : "bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 border border-blue-500/30"
+        }`}
+      >
+        Contacto
+      </button>
+    </nav>
+  );
+}
+```
+
+---
+
+### Paso 5: Encabezado Unificado (`src/app/components/staticComponents/Header.tsx`)
+
+Combina los tres puntos de decoración, el título y la navegación responsiva (`WebMenu` en PC + `BurgerMenu` en celular):
 
 ```tsx
 import BurgerMenu from "../ui/BurgerMenu";
+import WebMenu from "../navigation/WebMenu";
 
 export default function Header() {
   return (
-    <header className="relative flex bg-slate-900 text-white p-4 items-center justify-between border-b border-slate-800"> 
-      {/* 1. Círculos de decoración */}
+    <header className="relative z-50 flex bg-slate-900 text-white p-4 items-center justify-between border-b border-slate-800/80"> 
+      {/* 1. Círculos decorativos */}
       <div id="triple-dot-decoration" className="flex gap-2">
         <div className="w-3.5 h-3.5 bg-red-600 rounded-full"></div>
         <div className="w-3.5 h-3.5 bg-yellow-400 rounded-full"></div>
@@ -223,16 +329,14 @@ export default function Header() {
       {/* 2. Título */}
       <h1 className="sm:text-2xl text-xl font-bold">Portfolio JoacoDev</h1>
 
-      {/* 3. Menú visible en PC (Oculto en celular) */}
-      <nav className="hidden sm:flex gap-6 items-center text-sm font-medium text-slate-300">
-        <a href="#sobre-mi" className="hover:text-white transition-colors">Sobre mí</a>
-        <a href="#habilidades" className="hover:text-white transition-colors">Habilidades</a>
-        <a href="#proyectos" className="hover:text-white transition-colors">Proyectos</a>
-        <a href="#contacto" className="text-blue-400 hover:text-blue-300 transition-colors">Contacto</a>
-      </nav>
+      {/* 3. Navegación a la derecha */}
+      <div className="flex items-center">
+        {/* Visible en PC (hidden sm:flex) */}
+        <WebMenu />
 
-      {/* 4. Menú hamburguesa (Visible en celular, se conecta solo al Context) */}
-      <BurgerMenu />
+        {/* Visible en móvil (sm:hidden) */}
+        <BurgerMenu />
+      </div>
     </header>
   );
 }
@@ -240,9 +344,7 @@ export default function Header() {
 
 ---
 
-### Paso 5: Conectar todo en `src/app/App.tsx`
-
-Envolvemos la aplicación con el `MenuProvider`:
+### Paso 6: Integración en `src/app/App.tsx`
 
 ```tsx
 import { MenuProvider } from "./context/MenuContext";
@@ -258,7 +360,12 @@ export default function App() {
         <MobileMenu />
 
         <main className="flex-grow p-4">
-          {/* Aquí irán tus secciones: Hero, Proyectos, etc. */}
+          {/* Próximas secciones con sus respectivos IDs para el scroll:
+              <section id="sobre-mi">...</section>
+              <section id="habilidades">...</section>
+              <section id="proyectos">...</section>
+              <section id="contacto">...</section>
+          */}
         </main>
 
         <Footer />
@@ -270,14 +377,16 @@ export default function App() {
 
 ---
 
-## 4. Plan de Verificación
+## 3. Plan de Verificación
 
-1. **Compilar y probar**:
-   - Ejecutar `npm run dev` en la carpeta `MiPortfolio`.
-   - Abrir `http://localhost:5173`.
-2. **Prueba en vista móvil (F12 -> Responsive)**:
-   - Al pulsar la hamburguesa: se transforma en **X** y se despliega el menú `MobileMenu`.
-   - Al tocar cualquiera de los enlaces (*Proyectos*, *Contacto*): el menú debe cerrarse y el botón debe volver a ser hamburguesa.
-3. **Prueba en vista escritorio**:
-   - En pantalla completa: desaparece la hamburguesa y aparecen los enlaces en el Header horizontalmente.
-
+1. **Ejecutar servidor**:
+   `npm run dev` en `MiPortfolio`.
+2. **Prueba en PC (`>= 640px`)**:
+   - Se muestran los enlaces horizontales de `WebMenu`.
+   - El botón hamburguesa está oculto.
+   - Al hacer clic en un enlace, se marca en azul y la URL se mantiene limpia en `localhost:5173/`.
+3. **Prueba en Móvil (`< 640px`)**:
+   - Los enlaces horizontales se ocultan y aparece el botón hamburguesa.
+   - Al tocar la hamburguesa, desliza suavemente el panel lateral desde la derecha y aparece el fondo oscuro.
+   - La cruz queda visible y permite cerrar el menú.
+   - Tocar fuera del panel (en el fondo oscuro) también cierra el menú.
