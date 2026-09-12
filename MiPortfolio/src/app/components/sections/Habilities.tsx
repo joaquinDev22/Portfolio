@@ -23,7 +23,8 @@ export default function Skills() {
 
             <div className="flex flex-wrap gap-2.5 justify-center">
               {softSkills.map((skill) => (
-                <Badge key={skill} variant="default" size="md" dot>
+                <Badge className="border border-slate-400 p-1 rounded-lg w-full flex items-center space-x-1 text-sm bg-slate-500 font-bold">
+                  <div className="w-3 h-3 bg-blue-600 rounded-full mr-2"></div>
                   {skill}
                 </Badge>
               ))}
@@ -31,7 +32,6 @@ export default function Skills() {
           </div>
         </div>
 
-        {/* 2. Stack Tecnológico */}
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 flex flex-col justify-between shadow-lg">
           <div>
             <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 text-center">
@@ -52,7 +52,7 @@ export default function Skills() {
                     {allSkills
                       .filter((tech) => tech.category === category)
                       .map((tech) => (
-                        <Badge key={tech.name} variant="blue" size="md">
+                        <Badge className="flex items-center justify-center border border-slate-400 px-1 py-1 rounded-lg text-sm bg-slate-500 font-bold" icon={tech.icon}>
                           {tech.name}
                         </Badge>
                       ))}

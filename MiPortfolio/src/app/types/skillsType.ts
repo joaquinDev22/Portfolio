@@ -1,10 +1,10 @@
-export type TechCategory = "Frontend" | "Backend" | "Database" | "Tools";
+export type TechCategory = "Frontend" | "Backend" | "Database" | "Tools"
 
 export interface TechSkill {
-  name: string;
-  category: TechCategory;
-  level?: "Básico" | "Intermedio" | "Avanzado";
+  icon: string
+  name?: string
+  category: TechCategory
 }
 
-export type SoftSkill = string;
+export type SoftSkill = string
 
